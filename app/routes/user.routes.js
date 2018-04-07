@@ -7,9 +7,6 @@ module.exports = (app) => {
     // Get the mutual friends
     app.get('/mutual_friends', users.getMutualFriends);
 
-    // Get whether is friend
-    app.get('/is_friend', users.isFriend);
-
     // Create a user
     app.post('/create', users.create);
 
@@ -18,4 +15,7 @@ module.exports = (app) => {
 
     // Delete a user
     app.post('/delete', users.delete);
+
+    // Add pics to the user
+    app.post('/add_pics', user.addPics);
 }
