@@ -1,18 +1,21 @@
 module.exports = (app) => {
     const users = require('../controllers/user.controller.js');
 
-    // Create a new Note
-    app.post('/users', users.create);
+    // Get info of user by name
+    app.get('/user_info', users.getInfo);
 
-    // Retrieve all Notes
-    app.get('/users', users.findAll);
+    // Get the mutual friends
+    app.get('/mutual_friends', users.getMutualFriends);
 
-    // Retrieve a single Note with noteId
-    app.get('/users/:userId', users.findOne);
+    // Get whether is friend
+    app.get('/is_friend', users.isFriend);
 
-    // Update a Note with noteId
-    app.put('/users/:userId', users.update);
+    // Create a user
+    app.post('/create', users.create);
 
-    // Delete a Note with noteId
-    app.delete('/users/:userId', users.delete);
+    // Become friends
+    app.get('/befriend', users.befriend);
+
+    // Delete a user
+    app.post('/delete', users.delete);
 }

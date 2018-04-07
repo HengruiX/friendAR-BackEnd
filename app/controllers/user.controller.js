@@ -1,7 +1,6 @@
 const User = require('../models/user.model.js');
 
-// Create and Save a new Note
-exports.create = (req, res) => {
+exports.userinfo = (req, res) => {
 
 };
 
