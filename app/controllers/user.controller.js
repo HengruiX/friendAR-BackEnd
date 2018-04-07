@@ -32,9 +32,23 @@ exports.create = (req, res) => {
             message: "Note content can not be empty"
         });
     }
+    if(!req.body.facebook) {
+        fb = "Not Set";
+    } else {
+        fb = req.body.facebook;
+    }
+
+    if(!req.body.linkedin) {
+        li = "Not Set";
+    } else {
+        li = req.body.linkedin;
+    }
+
     const user = new User({
         name: req.body.name,
-        bio: req.body.bio
+        bio: req.body.bio,
+        facebook: fb,
+        linkedin: li
     });
     user.save(function(err){
         if (err){
@@ -46,7 +60,7 @@ exports.create = (req, res) => {
 };
 
 exports.befriend = (req, res) => {
-    if(!req.body.content) {
+    if(!req.body) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
@@ -54,8 +68,27 @@ exports.befriend = (req, res) => {
 
     User.findOne({"name": req.body.requester},"friends",function(err,user){
         if (err) return handleError(err);
-        person.friends.push(req.body.requested)
-    })
+        user.friends.push(req.body.requested);
+        user.save(function(err){
+            if (err){
+                console.log(err);
+            } else {
+                res.json({status:0});
+            }
+        });
+    });
+
+    User.findOne({"name": req.body.requested},"friends",function(err,user){
+        if (err) return handleError(err);
+        user.friends.push(req.body.requester);
+        user.save(function(err){
+            if (err){
+                console.log(err);
+            } else {
+                res.json({status:0});
+            }
+        });
+    });
 
 };
 
