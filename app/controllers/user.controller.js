@@ -21,11 +21,12 @@ exports.create = (req, res) => {
     const user = new User({
         name: req.body.name,
         bio: req.body.bio
-    }
+    })
+
     user.save()
-
-    )
-
+    return res.status(200).send({
+        message: "Saved"
+    });
 };
 
 exports.befriend = (req, res) => {
