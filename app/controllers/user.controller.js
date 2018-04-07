@@ -1,7 +1,14 @@
 const User = require('../models/user.model.js');
 
 exports.getInfo = (req, res) => {
-
+    var name = req.params.name;
+    User.findOne({name:name}, function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    });
 };
 
 exports.getMutualFriends = (req, res) => {
@@ -9,11 +16,18 @@ exports.getMutualFriends = (req, res) => {
 };
 
 exports.isFriend = (req, res) => {
-
+    var name = req.params.name1;
+    User.findOne({name:name}, function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.json(result);
+        }
+    });
 };
 
 exports.create = (req, res) => {
-    if(!req.body.content) {
+    if(!req.body) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
@@ -21,11 +35,13 @@ exports.create = (req, res) => {
     const user = new User({
         name: req.body.name,
         bio: req.body.bio
-    })
-
-    user.save()
-    return res.status(200).send({
-        message: "Saved"
+    });
+    user.save(function(err){
+        if (err){
+            console.log(err);
+        } else {
+            res.json({status:0});
+        }
     });
 };
 
