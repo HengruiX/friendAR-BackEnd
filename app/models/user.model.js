@@ -4,10 +4,10 @@ const UserSchema = mongoose.Schema({
     name: String,
     bio: String,
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    links: [{
+    links: {
         facebook: String,
         linkedin: String
-    }],
+    },
     pics: [{type: String}]
 }, {
     timestamps: true
