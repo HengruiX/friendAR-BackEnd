@@ -1,11 +1,11 @@
 ### params in [] are optional
 ## User Model
-name (String)
-bio (String)
-friends (Array of names)
-facebook (String)
-linkedin (String)
-pics (Array of urls)
+name (String)  
+bio (String)  
+friends (Array of names)  
+facebook (String)  
+linkedin (String)  
+pics (Array of urls)  
 
 ## Endpoints
 
@@ -30,5 +30,5 @@ parameters: requested (String), requester (String)
 return: {status}
 
 ### POST /delete
-parameters: name (String)  
+body: {name (String)}  
 return: {status}
