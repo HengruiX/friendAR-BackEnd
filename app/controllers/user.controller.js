@@ -32,6 +32,7 @@ exports.create = (req, res) => {
             message: "Note content can not be empty"
         });
     }
+    console.log(req.body)
     if(!req.body.facebook) {
         fb = "Not Set";
     } else {
@@ -60,28 +61,28 @@ exports.create = (req, res) => {
 };
 
 exports.befriend = (req, res) => {
-    if(!req.body) {
+    if(!req.query) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
     }
 
-    User.findOne({"name": req.body.requester},"friends",function(err,user){
+    User.findOne({"name": req.query.requester},"friends",function(err,requester){
         if (err) return handleError(err);
-        user.friends.push(req.body.requested);
-        user.save(function(err){
+        requester.friends.push(req.query.requested);
+        requester.save(function(err){
             if (err){
                 console.log(err);
             } else {
-                res.json({status:0});
+                
             }
         });
     });
 
-    User.findOne({"name": req.body.requested},"friends",function(err,user){
+    User.findOne({"name": req.query.requested},"friends",function(err,requested){
         if (err) return handleError(err);
-        user.friends.push(req.body.requester);
-        user.save(function(err){
+        requested.friends.push(req.query.requester);
+        requested.save(function(err){
             if (err){
                 console.log(err);
             } else {
