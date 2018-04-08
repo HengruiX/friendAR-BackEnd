@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('request');
 
 // create express app
 const app = express();
@@ -32,6 +33,11 @@ app.get('/', (req, res) => {
     res.json("Hello World!");
 });
 
+
+app.post('/detect_face', (req, res) => {
+    console.log(req.body);
+    res.json({status:200});
+});
 
 require('./app/routes/user.routes.js')(app);
 

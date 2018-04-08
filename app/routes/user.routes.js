@@ -21,4 +21,5 @@ module.exports = (app) => {
     app.post('/add_pics', users.addPics);
 
     app.post('/text_user', sms.textUser);
+
 }
