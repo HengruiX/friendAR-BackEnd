@@ -1,5 +1,6 @@
 module.exports = (app) => {
     const users = require('../controllers/user.controller.js');
+    const sms = require('../controllers/sms.controller.js');
 
     // Get info of user by name
     app.get('/user_info', users.getInfo);
@@ -19,5 +20,5 @@ module.exports = (app) => {
     // Add pics to the user
     app.post('/add_pics', users.addPics);
 
-    app.get('/henry1.jpg', users.befriend);
+    app.post('/text_user', sms.textUser);
 }

@@ -29,7 +29,7 @@ mongoose.connect(dbConfig.url)
 
 // define a simple route
 app.get('/', (req, res) => {
-    res.json({"message": ""});
+    res.json("Hello World!");
 });
 
 
