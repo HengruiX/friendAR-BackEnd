@@ -32,3 +32,7 @@ return: {status}
 ### POST /delete
 body: {name (String)}  
 return: {status}
+
+### POST /text_user
+body: {name (String), text (String)}  
+return: {status}
