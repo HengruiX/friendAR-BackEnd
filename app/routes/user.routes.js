@@ -17,5 +17,5 @@ module.exports = (app) => {
     app.post('/delete', users.delete);
 
     // Add pics to the user
-    app.post('/add_pics', user.addPics);
+    app.post('/add_pics', users.addPics);
 }

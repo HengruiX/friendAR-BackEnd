@@ -83,13 +83,33 @@ exports.befriend = (req, res) => {
             }
         });
     });
-
-};
-
+}
 exports.delete = (req, res) => {
-    
+    if(!req.body) {
+        return res.status(400).send({
+            message: "Note content can not be empty"
+        });
+    }
+
+    // User.findOne({"name":req.query.name},function(err,test){
+    //     console.log(test.name);
+    // });
+    User.findOne({"name":req.body.name},function(err,model){
+        model.remove(function(err){});
+    });
+
+    User.find({},function(err,users){
+        users.forEach(function(u){
+            idx = u.friends.indexOf(req.body.name)
+            if (idx != -1) {
+                u.friends.splice(idx,1);
+            }
+            u.save()
+        });
+        res.json({status:0})
+    });
 };
 
 exports.addPics = (req, res) => {
-    pics = 
-}
+    
+};
