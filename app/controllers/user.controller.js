@@ -81,40 +81,60 @@ exports.create = (req, res) => {
 };
 
 exports.befriend = (req, res) => {
+    if(!req.query) {
+        return res.status(400).send({
+            message: "Note content can not be empty"
+        });
+    }
+
+    User.findOne({"name": req.query.requester},"friends",function(err,requester){
+        if (err) return handleError(err);
+        requester.friends.push(req.query.requested);
+        requester.save(function(err){
+            if (err){
+                console.log(err);
+            } else {
+                
+            }
+        });
+    });
+
+    User.findOne({"name": req.query.requested},"friends",function(err,requested){
+        if (err) return handleError(err);
+        requested.friends.push(req.query.requester);
+        requested.save(function(err){
+            if (err){
+                console.log(err);
+            } else {
+                res.json({status:0});
+            }
+        });
+    });
+}
+exports.delete = (req, res) => {
     if(!req.body) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
     }
 
-    User.findOne({"name": req.body.requester},"friends",function(err,user){
-        if (err) return handleError(err);
-        user.friends.push(req.body.requested);
-        user.save(function(err){
-            if (err){
-                console.log(err);
-            } else {
-                res.json({status:0});
-            }
-        });
+    // User.findOne({"name":req.query.name},function(err,test){
+    //     console.log(test.name);
+    // });
+    User.findOne({"name":req.body.name},function(err,model){
+        model.remove(function(err){});
     });
 
-    User.findOne({"name": req.body.requested},"friends",function(err,user){
-        if (err) return handleError(err);
-        user.friends.push(req.body.requester);
-        user.save(function(err){
-            if (err){
-                console.log(err);
-            } else {
-                res.json({status:0});
+    User.find({},function(err,users){
+        users.forEach(function(u){
+            idx = u.friends.indexOf(req.body.name)
+            if (idx != -1) {
+                u.friends.splice(idx,1);
             }
+            u.save()
         });
+        res.json({status:0})
     });
-
-};
-
-exports.delete = (req, res) => {
-    
 };
 
 exports.addPics = async (req, res) => {
