@@ -8,10 +8,21 @@ exports.getInfo = async (req, res) => {
     result = await User.findOne({name:requested});
     isFriend = result.friends.includes(requester) ? true : false;
     delete result.phone
+    requestedResult = await User.findOne({name:requested});
+    requesterResult = await User.findOne({name:requester});
+
+    mutual = []
+    requestedResult.friends.forEach(function(friend){
+        if (requesterResult.friends.includes(friend)){
+            mutual.push(friend)
+        }
+    });
+
     res.json({
         status: 0,
         user: result,
-        isFriend: isFriend
+        isFriend: isFriend,
+        mutual: mutual
     });
 };
 
