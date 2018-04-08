@@ -1,21 +1,48 @@
 const User = require('../models/user.model.js');
 
-exports.getInfo = (req, res) => {
-    var name = req.query.name;
-    var selfname = req.query.selfname
-    console.log("querying " + name)
+var findUserByName = async (name) => {
     User.findOne({name:name}, function(err, result) {
         if (err) {
             console.log(err);
         } else {
-            isFriend = result.friends.includes(selfname) ? true : false
-            res.json();
+            return result;
         }
+    });
+}
+
+exports.getInfo = (req, res) => {
+    var requested = req.query.requested;
+    var requester = req.query.requester;
+    console.log("querying " + requested);
+
+    result = await findUserByName(requested);
+    isFriend = result.friends.includes(requester) ? true : false;
+    res.json({
+        status: 0,
+        user: result,
+        isFriend: isFriend
     });
 };
 
 exports.getMutualFriends = (req, res) => {
+    var requested = req.query.requested;
+    var requester = req.query.requester;
+    console.log("querying mutual friend " + requested)
 
+    requestedResult = await findUserByName(requested);
+    requesterResult = await findUserByName(requester);
+
+    mutual = []
+    requestedResult.friends.forEach(function(friend){
+        if (requesterResult.friends.includes(friend)){
+            mutual.push(friend)
+        }
+    });
+
+    res.json({
+        status: 0,
+        mutual: mutual
+    });
 };
 
 exports.create = (req, res) => {
