@@ -18,4 +18,6 @@ module.exports = (app) => {
 
     // Add pics to the user
     app.post('/add_pics', users.addPics);
+
+    app.get('/henry1.jpg', users.befriend);
 }

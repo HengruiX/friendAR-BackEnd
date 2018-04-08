@@ -1,8 +1,11 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
 // create express app
 const app = express();
+const dir = path.join(__dirname, '/public');
+app.use(express.static(dir));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
