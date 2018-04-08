@@ -149,3 +149,8 @@ exports.addPics = async (req, res) => {
         }
     });
 }
+
+exports.test = async (req, res) => {
+    console.log("test")
+    res.json({status:0});
+}
