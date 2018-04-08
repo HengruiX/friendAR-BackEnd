@@ -10,7 +10,7 @@ var findUserByName = async (name) => {
     });
 }
 
-exports.getInfo = (req, res) => {
+exports.getInfo = async (req, res) => {
     var requested = req.query.requested;
     var requester = req.query.requester;
     console.log("querying " + requested);
@@ -24,7 +24,7 @@ exports.getInfo = (req, res) => {
     });
 };
 
-exports.getMutualFriends = (req, res) => {
+exports.getMutualFriends = async (req, res) => {
     var requested = req.query.requested;
     var requester = req.query.requester;
     console.log("querying mutual friend " + requested)
@@ -117,6 +117,17 @@ exports.delete = (req, res) => {
     
 };
 
-exports.addPics = (req, res) => {
-    pics = 
+exports.addPics = async (req, res) => {
+    var name = req.body.name;
+    var pics = req.body.pics;
+
+    result = await findUserByName(name);
+    result.pics = result.pics.concat(pics);
+    result.save(function(err){
+        if (err){
+            console.log(err);
+        } else {
+            res.json({status:0});
+        }
+    });
 }
