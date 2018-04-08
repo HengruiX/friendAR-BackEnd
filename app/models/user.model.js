@@ -6,6 +6,7 @@ const UserSchema = mongoose.Schema({
     friends: [{ type: String }],
     facebook: { type: String, default: "not set" },
     linkedin: { type: String, default: "not set" },
+    phone: {type: String, default: ""},
     pics: [{type: String}]
 }, {
     timestamps: true

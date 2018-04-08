@@ -1,22 +1,13 @@
 const User = require('../models/user.model.js');
 
-var findUserByName = async (name) => {
-    User.findOne({name:name}, function(err, result) {
-        if (err) {
-            console.log(err);
-        } else {
-            return result;
-        }
-    });
-}
-
 exports.getInfo = async (req, res) => {
     var requested = req.query.requested;
     var requester = req.query.requester;
     console.log("querying " + requested);
 
-    result = await findUserByName(requested);
+    result = await User.findOne({name:requested});
     isFriend = result.friends.includes(requester) ? true : false;
+    delete result.phone
     res.json({
         status: 0,
         user: result,
@@ -29,8 +20,8 @@ exports.getMutualFriends = async (req, res) => {
     var requester = req.query.requester;
     console.log("querying mutual friend " + requested)
 
-    requestedResult = await findUserByName(requested);
-    requesterResult = await findUserByName(requester);
+    requestedResult = await User.findOne({name:requested});
+    requesterResult = await User.findOne({name:requester});
 
     mutual = []
     requestedResult.friends.forEach(function(friend){
@@ -64,11 +55,18 @@ exports.create = (req, res) => {
         li = req.body.linkedin;
     }
 
+    if(!req.body.phone) {
+        phone = "";
+    } else {
+        phone = req.body.phone;
+    }
+
     const user = new User({
         name: req.body.name,
         bio: req.body.bio,
         facebook: fb,
-        linkedin: li
+        linkedin: li,
+        phone: phone
     });
 
     user.save(function(err){
@@ -141,7 +139,7 @@ exports.addPics = async (req, res) => {
     var name = req.body.name;
     var pics = req.body.pics;
 
-    result = await findUserByName(name);
+    result = await User.findOne({name:name});
     result.pics = result.pics.concat(pics);
     result.save(function(err){
         if (err){
