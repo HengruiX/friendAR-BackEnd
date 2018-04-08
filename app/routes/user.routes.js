@@ -22,4 +22,5 @@ module.exports = (app) => {
 
     app.post('/text_user', sms.textUser);
 
+    app.post('/test', users.test);
 }
